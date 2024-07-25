@@ -1,3 +1,5 @@
+# backend
+application.properties
 HELP.md
 target/
 !.mvn/wrapper/maven-wrapper.jar
@@ -33,7 +35,7 @@ build/
 .vscode/
 
 # Frontend
-/node_modules
+node_modules/
 /.pnp
 .pnp.js
 
@@ -55,6 +57,3 @@ yarn-debug.log*
 yarn-error.log*
 
 
-application.properties
-/frontend/node_modules/
-/frontend/node_modules/
