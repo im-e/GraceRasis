@@ -1,7 +1,10 @@
 package com.imi.gracerasis.service;
 
+import com.imi.gracerasis.model.DTO.Track;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+
+import java.util.List;
 
 
 @Service
@@ -16,17 +19,18 @@ public class NearNoahService {
         this.webClient = webClientBuilder.baseUrl(BASE_URL).build();
     }
 
-    public String getTrackData(){
+    public List<Track> getTrackData() {
         return webClient.get()
                 .uri(uriBuilder -> uriBuilder
                         .pathSegment("getTrackData.json")
                         .build())
                 .retrieve()
-                .bodyToMono(String.class)
-                .block();
+                .bodyToFlux(Track.class)  // Use Flux for a stream of Track objects
+                .collectList()            // Collect the Flux into a List
+                .block();                 // Block to get the result (consider using reactive approach instead)
     }
 
-    public String getTrackData(int level)
+    public List<Track> getTrackData(int level)
     {
         return webClient.get()
                 .uri(uriBuilder -> uriBuilder
@@ -34,18 +38,20 @@ public class NearNoahService {
                         .queryParam("level", level)
                         .build())
                 .retrieve()
-                .bodyToMono(String.class)
+                .bodyToFlux(Track.class)  // Use Flux for a stream of Track objects
+                .collectList()            // Collect the Flux into a List
                 .block();
     }
 
-    public String getTrackData(String artist){
+    public List<Track> getTrackData(String artist){
         return webClient.get()
                 .uri(uriBuilder -> uriBuilder
                         .pathSegment("getTrackData.json")
                         .queryParam("artist", artist)
                         .build())
                 .retrieve()
-                .bodyToMono(String.class)
+                .bodyToFlux(Track.class)  // Use Flux for a stream of Track objects
+                .collectList()            // Collect the Flux into a List
                 .block();
     }
 }

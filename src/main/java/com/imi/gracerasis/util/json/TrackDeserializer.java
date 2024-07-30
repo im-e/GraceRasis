@@ -7,7 +7,10 @@ import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.imi.gracerasis.model.DTO.Track;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 public class TrackDeserializer extends StdDeserializer<Track> {
 
@@ -28,7 +31,15 @@ public class TrackDeserializer extends StdDeserializer<Track> {
         track.setId(node.get("id").asInt());
         track.setTitle(node.get("title").asText());
         track.setArtist(node.get("artist").asText());
-        track.setDbUpdatedAt(LocalDateTime.parse(node.get("db_updated_at").asText()));
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try {
+            String dateString = node.get("db_updated_at").asText();
+            Date date = dateFormat.parse(dateString);
+            track.setDbUpdatedAt(date);
+        } catch (ParseException e) {
+            // Handle parsing exception
+            e.printStackTrace();
+        }
 
         // Deserialize difficulties
         track.setNovice(deserializeDifficulty(node.get("novice"), Track.DifficultyType.NOVICE));

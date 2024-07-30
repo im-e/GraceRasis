@@ -3,16 +3,36 @@ package com.imi.gracerasis.model.DTO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.imi.gracerasis.util.json.TrackDeserializer;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
+@Document(collection = "tracks")
 @JsonDeserialize(using = TrackDeserializer.class)
 public class Track {
+
+    @Override
+    public String toString() {
+        return "Track {" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", artist='" + artist + '\'' +
+                ", dbUpdatedAt=" + dbUpdatedAt +
+                ", novice=" + novice +
+                ", advanced=" + advanced +
+                ", exhaust=" + exhaust +
+                ", finalDifficulty=" + finalDifficulty +
+                '}';
+    }
+
+    @Id
     private int id;
     private String title;
     private String artist;
     @JsonProperty("db_updated_at")
-    private LocalDateTime dbUpdatedAt;
+    private Date dbUpdatedAt;
     private Difficulty novice;
     private Difficulty advanced;
     private Difficulty exhaust;
@@ -34,9 +54,9 @@ public class Track {
 
     public void setArtist(String artist) {this.artist = artist;}
 
-    public LocalDateTime getDbUpdatedAt() {return dbUpdatedAt;}
+    public Date getDbUpdatedAt() {return dbUpdatedAt;}
 
-    public void setDbUpdatedAt(LocalDateTime dbUpdatedAt) {this.dbUpdatedAt = dbUpdatedAt;}
+    public void setDbUpdatedAt(Date dbUpdatedAt) {this.dbUpdatedAt = dbUpdatedAt;}
 
     public Difficulty getNovice() {return novice;}
 
