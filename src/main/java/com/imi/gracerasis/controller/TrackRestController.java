@@ -3,6 +3,7 @@ package com.imi.gracerasis.controller;
 import com.imi.gracerasis.service.NearNoahService;
 import com.imi.gracerasis.service.TachiService;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,12 +18,12 @@ public class TrackRestController {
         this.tachiService = tachiService;
     }
 
-    @GetMapping("/track")
-    public String getTrackByLevel(@RequestParam int level) {
+    @GetMapping("/track/{level}")
+    public String getTrackByLevel(@PathVariable String level) {
         return nearNoahService.getTrackData(level);
     }
 
-    @GetMapping("/track")
+    @GetMapping("/track/")
     public String getTrackByArtist(@RequestParam String artist) {
         return nearNoahService.getTrackData(artist);
     }

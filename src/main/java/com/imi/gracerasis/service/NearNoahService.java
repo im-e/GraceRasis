@@ -1,15 +1,20 @@
 package com.imi.gracerasis.service;
 
+import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
+
+@Service
 public class NearNoahService {
+
     private final WebClient webClient;
 
-    public NearNoahService(WebClient webClient) {
-        this.webClient = webClient;
-    }
-
     private static final String BASE_URL = "https://nearnoah.net/api";
+
+    public NearNoahService(WebClient.Builder webClientBuilder) {
+
+        this.webClient = webClientBuilder.baseUrl(BASE_URL).build();
+    }
 
     public String getTrackData(){
         return webClient.get()
