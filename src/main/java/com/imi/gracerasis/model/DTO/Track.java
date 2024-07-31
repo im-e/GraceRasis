@@ -8,10 +8,25 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 
 @Document(collection = "tracks")
 @JsonDeserialize(using = TrackDeserializer.class)
 public class Track {
+
+    @Id
+    private int id;
+    private String title;
+    private String artist;
+    @JsonProperty("db_updated_at")
+    private Date dbUpdatedAt;
+    private Difficulty novice;
+    private Difficulty advanced;
+    private Difficulty exhaust;
+    @JsonProperty("maximum")
+    private Difficulty finalDifficulty; // This can be Maximum, Heavenly, Infinite, or Exceed
+
+    private List<byte[]> jacketImages;
 
     @Override
     public String toString() {
@@ -26,18 +41,6 @@ public class Track {
                 ", finalDifficulty=" + finalDifficulty +
                 '}';
     }
-
-    @Id
-    private int id;
-    private String title;
-    private String artist;
-    @JsonProperty("db_updated_at")
-    private Date dbUpdatedAt;
-    private Difficulty novice;
-    private Difficulty advanced;
-    private Difficulty exhaust;
-    @JsonProperty("maximum")
-    private Difficulty finalDifficulty; // This can be Maximum, Heavenly, Infinite, or Exceed
 
     public Difficulty getFinalDifficulty() { return finalDifficulty; }
     public void setFinalDifficulty(Difficulty finalDifficulty) { this.finalDifficulty = finalDifficulty; }
@@ -70,6 +73,10 @@ public class Track {
 
     public void setExhaust(Difficulty exhaust) { this.exhaust = exhaust;}
 
+    public List<byte[]> getJacketImages() { return jacketImages;}
+
+    public void setJacketImages(List<byte[]> jacketImages) {this.jacketImages = jacketImages;}
+
     public static class Difficulty {
         private int level;
         @JsonProperty("effected_by")
@@ -88,9 +95,7 @@ public class Track {
 
         public String getIllustratedBy() {return illustratedBy;}
 
-        public void setIllustratedBy(String illustratedBy) {
-            this.illustratedBy = illustratedBy;
-        }
+        public void setIllustratedBy(String illustratedBy) {this.illustratedBy = illustratedBy;}
 
         public DifficultyType getType() { return type; }
         public void setType(DifficultyType type) { this.type = type; }
