@@ -1,9 +1,7 @@
 package com.imi.gracerasis.service;
 
 import com.imi.gracerasis.model.DTO.Music;
-import com.imi.gracerasis.model.repository.MusicRepository;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 
 import java.io.FileNotFoundException;
@@ -18,15 +16,9 @@ import java.util.List;
 public class TrackImageService {
 
     private final Path gameDataPath;
-    private final MongoTemplate mongoTemplate;
-    private final MusicRepository musicRepository;
 
-    public TrackImageService(@Value("${game.data.path}") String gameDataPath,
-                             MongoTemplate mongoTemplate,
-                             MusicRepository musicRepository) {
+    public TrackImageService(@Value("${game.data.path}") String gameDataPath) {
         this.gameDataPath = Paths.get(gameDataPath);
-        this.mongoTemplate = mongoTemplate;
-        this.musicRepository = musicRepository;
     }
 
     private String getPaddedTrackId(Integer trackId) {
@@ -66,10 +58,7 @@ public class TrackImageService {
             }
         }
 
-        music.setJacketImages(jacketImages);
-        // Set other track properties as needed
-
-        mongoTemplate.save(music);
+        //music.setJacketImages(jacketImages);
     }
 
 }
