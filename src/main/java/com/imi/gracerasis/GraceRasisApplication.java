@@ -1,19 +1,20 @@
 package com.imi.gracerasis;
 
-import com.imi.gracerasis.service.TrackPopulationService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.imi.gracerasis.service.MusicPopulationService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
+import java.io.IOException;
+
 @SpringBootApplication
 @EnableMongoRepositories(basePackages = "com.imi.gracerasis.model.repository")
 public class GraceRasisApplication implements CommandLineRunner {
 
-    private final TrackPopulationService trackPopulationService;
+    private final MusicPopulationService trackPopulationService;
 
-    public GraceRasisApplication(TrackPopulationService trackPopulationService) {
+    public GraceRasisApplication(MusicPopulationService trackPopulationService) {
         this.trackPopulationService = trackPopulationService;
     }
 
@@ -23,7 +24,7 @@ public class GraceRasisApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        //trackPopulationService.populateDatabase();
+        trackPopulationService.populateDatabase();
     }
 
 }

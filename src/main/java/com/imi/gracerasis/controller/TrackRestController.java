@@ -1,6 +1,6 @@
 package com.imi.gracerasis.controller;
 
-import com.imi.gracerasis.model.DTO.Track;
+import com.imi.gracerasis.model.DTO.Music;
 import com.imi.gracerasis.service.NearNoahService;
 import com.imi.gracerasis.service.TachiService;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,17 +22,17 @@ public class TrackRestController {
     }
 
     @GetMapping("/track/{level}")
-    public List<Track> getTrackByLevel(@PathVariable String level) {
+    public List<Music> getTrackByLevel(@PathVariable String level) {
         return nearNoahService.getTrackData(level);
     }
 
     @GetMapping("/track/")
-    public List<Track> getTrackByArtist(@RequestParam String artist) {
+    public List<Music> getTrackByArtist(@RequestParam String artist) {
         return nearNoahService.getTrackData(artist);
     }
 
     @GetMapping("/tracks")
-    public List<Track> getAllTracks() {
+    public List<Music> getAllTracks() {
         return nearNoahService.getTrackData();
     }
 
