@@ -3,18 +3,18 @@ package com.imi.gracerasis.model.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "Music")
+@Table(name = "music")
 public class MusicEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     @JoinColumn(name = "info_id", referencedColumnName = "id")
     private MusicInfoEntity info;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     @JoinColumn(name = "charts_id", referencedColumnName = "id")
     private ChartsEntity charts;
 
@@ -45,7 +45,7 @@ public class MusicEntity {
     // Getters and setters
 
     @Entity
-    @Table(name = "MusicInfo")
+    @Table(name = "musicinfo")
     public static class MusicInfoEntity {
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -239,25 +239,25 @@ public class MusicEntity {
     }
 
     @Entity
-    @Table(name = "Charts")
+    @Table(name = "charts")
     public static class ChartsEntity {
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private int id;
 
-        @OneToOne(cascade = CascadeType.ALL)
+        @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
         @JoinColumn(name = "novice_id", referencedColumnName = "id")
         private DifficultyEntity novice;
 
-        @OneToOne(cascade = CascadeType.ALL)
+        @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
         @JoinColumn(name = "advanced_id", referencedColumnName = "id")
         private DifficultyEntity advanced;
 
-        @OneToOne(cascade = CascadeType.ALL)
+        @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
         @JoinColumn(name = "exhaust_id", referencedColumnName = "id")
         private DifficultyEntity exhaust;
 
-        @OneToOne(cascade = CascadeType.ALL)
+        @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
         @JoinColumn(name = "infinite_id", referencedColumnName = "id")
         private DifficultyEntity infinite;
 
@@ -305,7 +305,7 @@ public class MusicEntity {
     }
 
     @Entity
-    @Table(name = "Difficulty")
+    @Table(name = "difficulty")
     public static class DifficultyEntity {
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -423,7 +423,7 @@ public class MusicEntity {
     }
 
     @Entity
-    @Table(name = "Radar")
+    @Table(name = "radar")
     public static class RadarEntity {
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -503,6 +503,5 @@ public class MusicEntity {
             this.oneHand = oneHand;
         }
 
-        // Getters and setters
     }
 }

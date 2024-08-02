@@ -53,8 +53,18 @@ public class MusicPopulationService {
             List<Music> musicList = getMusicDBData();
 
             for (Music m : musicList) {
-                MusicEntity mE = musicMapperService.toEntity(m);
-                musicEntityRepository.save(mE);
+                MusicEntity musicEntity = musicMapperService.toEntity(m);
+
+                // Set MusicInfo
+                MusicEntity.MusicInfoEntity infoEntity = musicMapperService.toMusicInfoEntity(m.getInfo());
+                musicEntity.setInfo(infoEntity);
+
+                // Set Charts
+                MusicEntity.ChartsEntity chartsEntity = musicMapperService.toChartsEntity(m.getCharts());
+                musicEntity.setCharts(chartsEntity);
+
+
+                musicEntityRepository.save(musicEntity);
             }
 
 
@@ -65,6 +75,7 @@ public class MusicPopulationService {
 //            }
 
         } catch (Exception e){
+            System.out.println(e);
             e.printStackTrace();
         }
 

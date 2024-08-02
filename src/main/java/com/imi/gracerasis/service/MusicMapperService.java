@@ -15,7 +15,7 @@ public class MusicMapperService {
         return entity;
     }
 
-    private MusicEntity.MusicInfoEntity toMusicInfoEntity(Music.MusicInfo dto) {
+    public MusicEntity.MusicInfoEntity toMusicInfoEntity(Music.MusicInfo dto) {
         MusicEntity.MusicInfoEntity entity = new MusicEntity.MusicInfoEntity();
         entity.setLabel(dto.getLabel());
         entity.setTitle(dto.getTitle());
@@ -36,7 +36,7 @@ public class MusicMapperService {
         return entity;
     }
 
-    private MusicEntity.ChartsEntity toChartsEntity(Music.Charts dto) {
+    public MusicEntity.ChartsEntity toChartsEntity(Music.Charts dto) {
         MusicEntity.ChartsEntity entity = new MusicEntity.ChartsEntity();
         if (dto.getNovice() != null) {
             entity.setNovice(toDifficultyEntity(dto.getNovice()));
@@ -53,7 +53,7 @@ public class MusicMapperService {
         return entity;
     }
 
-    private MusicEntity.DifficultyEntity toDifficultyEntity(Music.Difficulty dto) {
+    public MusicEntity.DifficultyEntity toDifficultyEntity(Music.Difficulty dto) {
         MusicEntity.DifficultyEntity entity = new MusicEntity.DifficultyEntity();
         entity.setLevel(dto.getLevel());
         entity.setIllustratedBy(dto.getIllustratedBy());
@@ -69,7 +69,7 @@ public class MusicMapperService {
         return entity;
     }
 
-    private MusicEntity.RadarEntity toRadarEntity(Music.Radar dto) {
+    public MusicEntity.RadarEntity toRadarEntity(Music.Radar dto) {
         MusicEntity.RadarEntity entity = new MusicEntity.RadarEntity();
         entity.setNotes(dto.getNotes());
         entity.setPeak(dto.getPeak());
