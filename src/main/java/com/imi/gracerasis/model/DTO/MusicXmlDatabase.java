@@ -10,16 +10,16 @@ import java.util.List;
 
 @XmlRootElement(name = "mdb")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class MusicDatabase {
+public class MusicXmlDatabase {
 
     @XmlElement(name = "music")
-    private List<Music> music;
+    private List<MusicXml> musicXmlList;
 
-    public List<Music> getMusic() {
-        return music;
+    public List<MusicXml> getMusic() {
+        return musicXmlList;
     }
 
-    public void setMusic(List<Music> music) {
-        this.music = music;
+    public void setMusic(List<MusicXml> musicXmlList) {
+        this.musicXmlList = musicXmlList;
     }
 }

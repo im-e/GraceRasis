@@ -1,6 +1,6 @@
 package com.imi.gracerasis.service;
 
-import com.imi.gracerasis.model.DTO.Music;
+import com.imi.gracerasis.model.DTO.MusicXml;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -25,10 +25,10 @@ public class TrackImageService {
         return String.format("%04d", trackId);
     }
 
-    public void processTrack(Music music) throws IOException {
+    public void processTrack(MusicXml musicXml) throws IOException {
 
         Path musicPath = gameDataPath.resolve("contents").resolve("data").resolve("music");
-        String paddedId = getPaddedTrackId(music.getId());
+        String paddedId = getPaddedTrackId(musicXml.getId());
 
 
         List<Path> matchingDirs = Files.walk(musicPath, 1)

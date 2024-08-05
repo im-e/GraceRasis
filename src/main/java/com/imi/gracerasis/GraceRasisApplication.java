@@ -1,18 +1,16 @@
 package com.imi.gracerasis;
 
-import com.imi.gracerasis.service.MusicPopulationService;
+import com.imi.gracerasis.service.DatabasePopulationService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import java.io.IOException;
-
 @SpringBootApplication
 public class GraceRasisApplication implements CommandLineRunner {
 
-    private final MusicPopulationService trackPopulationService;
+    private final DatabasePopulationService trackPopulationService;
 
-    public GraceRasisApplication(MusicPopulationService trackPopulationService) {
+    public GraceRasisApplication(DatabasePopulationService trackPopulationService) {
         this.trackPopulationService = trackPopulationService;
     }
 

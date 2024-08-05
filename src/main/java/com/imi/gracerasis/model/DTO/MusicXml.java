@@ -1,23 +1,24 @@
-package com.imi.gracerasis.model.entity;
+package com.imi.gracerasis.model.DTO;
 
-import jakarta.persistence.*;
+import jakarta.xml.bind.annotation.*;
 
-@Entity
-@Table(name = "music")
-public class MusicEntity {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+@XmlRootElement(name = "music")
+@XmlAccessorType(XmlAccessType.NONE)
+public class MusicXml {
     private int id;
+    private MusicInfo info;
+    private Charts charts;
 
-    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
-    @JoinColumn(name = "info_id", referencedColumnName = "id")
-    private MusicInfoEntity info;
+    @Override
+    public String toString() {
+        return "Music{" +
+                "id=" + id +
+                ", info=" + info +
+                ", charts=" + charts +
+                '}';
+    }
 
-    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
-    @JoinColumn(name = "charts_id", referencedColumnName = "id")
-    private ChartsEntity charts;
-
+    @XmlAttribute(name = "id")
     public int getId() {
         return id;
     }
@@ -26,87 +27,66 @@ public class MusicEntity {
         this.id = id;
     }
 
-    public MusicInfoEntity getInfo() {
+    @XmlElement(name = "info")
+    public MusicInfo getInfo() {
         return info;
     }
 
-    public void setInfo(MusicInfoEntity info) {
+    public void setInfo(MusicInfo info) {
         this.info = info;
     }
 
-    public ChartsEntity getCharts() {
+    @XmlElement(name = "difficulty")
+    public Charts getCharts() {
         return charts;
     }
 
-    public void setCharts(ChartsEntity charts) {
+    public void setCharts(Charts charts) {
         this.charts = charts;
     }
 
-    // Getters and setters
-
-    @Entity
-    @Table(name = "musicinfo")
-    public static class MusicInfoEntity {
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private int id;
-
-        @Column(name = "label")
+    @XmlAccessorType(XmlAccessType.NONE)
+    public static class MusicInfo {
         private String label;
-
-        @Column(name = "title_name")
         private String title;
-
-        @Column(name = "title_yomigana")
         private String titleYomigana;
-
-        @Column(name = "artist_name")
         private String artist;
-
-        @Column(name = "artist_yomigana")
         private String artistYomigana;
-
-        @Column(name = "ascii")
         private String ascii;
-
-        @Column(name = "bpm_max")
         private long bpmMax;
-
-        @Column(name = "bpm_min")
         private long bpmMin;
-
-        @Column(name = "distribution_date")
         private long distributionDate;
-
-        @Column(name = "volume")
         private int volume;
-
-        @Column(name = "bg_no")
         private int bgNo;
-
-        @Column(name = "genre")
         private long genre;
-
-        @Column(name = "is_fixed")
         private boolean isFixed;
-
-        @Column(name = "version")
         private int version;
-
-        @Column(name = "demo_pri")
         private int demoPri;
-
-        @Column(name = "inf_ver")
         private int infVer;
 
-        public int getId() {
-            return id;
+        @Override
+        public String toString() {
+            return "MusicInfo{" +
+                    "label='" + label + '\'' +
+                    ", title='" + title + '\'' +
+                    ", titleYomigana='" + titleYomigana + '\'' +
+                    ", artist='" + artist + '\'' +
+                    ", artistYomigana='" + artistYomigana + '\'' +
+                    ", ascii='" + ascii + '\'' +
+                    ", bpmMax=" + bpmMax +
+                    ", bpmMin=" + bpmMin +
+                    ", distributionDate=" + distributionDate +
+                    ", volume=" + volume +
+                    ", bgNo=" + bgNo +
+                    ", genre=" + genre +
+                    ", isFixed=" + isFixed +
+                    ", version=" + version +
+                    ", demoPri=" + demoPri +
+                    ", infVer=" + infVer +
+                    '}';
         }
 
-        public void setId(int id) {
-            this.id = id;
-        }
-
+        @XmlElement(name = "label")
         public String getLabel() {
             return label;
         }
@@ -115,6 +95,7 @@ public class MusicEntity {
             this.label = label;
         }
 
+        @XmlElement(name = "title_name")
         public String getTitle() {
             return title;
         }
@@ -123,6 +104,7 @@ public class MusicEntity {
             this.title = title;
         }
 
+        @XmlElement(name = "title_yomigana")
         public String getTitleYomigana() {
             return titleYomigana;
         }
@@ -131,6 +113,7 @@ public class MusicEntity {
             this.titleYomigana = titleYomigana;
         }
 
+        @XmlElement(name = "artist_name")
         public String getArtist() {
             return artist;
         }
@@ -139,6 +122,7 @@ public class MusicEntity {
             this.artist = artist;
         }
 
+        @XmlElement(name = "artist_yomigana")
         public String getArtistYomigana() {
             return artistYomigana;
         }
@@ -147,6 +131,7 @@ public class MusicEntity {
             this.artistYomigana = artistYomigana;
         }
 
+        @XmlElement(name = "ascii")
         public String getAscii() {
             return ascii;
         }
@@ -155,6 +140,7 @@ public class MusicEntity {
             this.ascii = ascii;
         }
 
+        @XmlElement(name = "bpm_max")
         public long getBpmMax() {
             return bpmMax;
         }
@@ -163,6 +149,7 @@ public class MusicEntity {
             this.bpmMax = bpmMax;
         }
 
+        @XmlElement(name = "bpm_min")
         public long getBpmMin() {
             return bpmMin;
         }
@@ -171,6 +158,7 @@ public class MusicEntity {
             this.bpmMin = bpmMin;
         }
 
+        @XmlElement(name = "distribution_date")
         public long getDistributionDate() {
             return distributionDate;
         }
@@ -179,6 +167,7 @@ public class MusicEntity {
             this.distributionDate = distributionDate;
         }
 
+        @XmlElement(name = "volume")
         public int getVolume() {
             return volume;
         }
@@ -187,6 +176,7 @@ public class MusicEntity {
             this.volume = volume;
         }
 
+        @XmlElement(name = "bg_no")
         public int getBgNo() {
             return bgNo;
         }
@@ -195,6 +185,7 @@ public class MusicEntity {
             this.bgNo = bgNo;
         }
 
+        @XmlElement(name = "genre")
         public long getGenre() {
             return genre;
         }
@@ -203,6 +194,7 @@ public class MusicEntity {
             this.genre = genre;
         }
 
+        @XmlElement(name = "is_fixed")
         public boolean isFixed() {
             return isFixed;
         }
@@ -211,6 +203,7 @@ public class MusicEntity {
             isFixed = fixed;
         }
 
+        @XmlElement(name = "version")
         public int getVersion() {
             return version;
         }
@@ -219,6 +212,7 @@ public class MusicEntity {
             this.version = version;
         }
 
+        @XmlElement(name = "demo_pri")
         public int getDemoPri() {
             return demoPri;
         }
@@ -227,6 +221,7 @@ public class MusicEntity {
             this.demoPri = demoPri;
         }
 
+        @XmlElement(name = "inf_ver")
         public int getInfVer() {
             return infVer;
         }
@@ -234,119 +229,65 @@ public class MusicEntity {
         public void setInfVer(int infVer) {
             this.infVer = infVer;
         }
-
-        // Getters and setters
     }
 
-    @Entity
-    @Table(name = "charts")
-    public static class ChartsEntity {
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private int id;
+    @XmlAccessorType(XmlAccessType.NONE)
+    public static class Charts {
+        private Difficulty novice;
+        private Difficulty advanced;
+        private Difficulty exhaust;
+        private Difficulty infinite;
 
-        @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
-        @JoinColumn(name = "novice_id", referencedColumnName = "id")
-        private DifficultyEntity novice;
-
-        @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
-        @JoinColumn(name = "advanced_id", referencedColumnName = "id")
-        private DifficultyEntity advanced;
-
-        @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
-        @JoinColumn(name = "exhaust_id", referencedColumnName = "id")
-        private DifficultyEntity exhaust;
-
-        @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
-        @JoinColumn(name = "infinite_id", referencedColumnName = "id")
-        private DifficultyEntity infinite;
-
-        public int getId() {
-            return id;
-        }
-
-        public void setId(int id) {
-            this.id = id;
-        }
-
-        public DifficultyEntity getNovice() {
+        @XmlElement(name = "novice")
+        public Difficulty getNovice() {
             return novice;
         }
 
-        public void setNovice(DifficultyEntity novice) {
+        public void setNovice(Difficulty novice) {
             this.novice = novice;
         }
 
-        public DifficultyEntity getAdvanced() {
+        @XmlElement(name = "advanced")
+        public Difficulty getAdvanced() {
             return advanced;
         }
 
-        public void setAdvanced(DifficultyEntity advanced) {
+        public void setAdvanced(Difficulty advanced) {
             this.advanced = advanced;
         }
 
-        public DifficultyEntity getExhaust() {
+        @XmlElement(name = "exhaust")
+        public Difficulty getExhaust() {
             return exhaust;
         }
 
-        public void setExhaust(DifficultyEntity exhaust) {
+        public void setExhaust(Difficulty exhaust) {
             this.exhaust = exhaust;
         }
 
-        public DifficultyEntity getInfinite() {
+        @XmlElement(name = "infinite")
+        public Difficulty getInfinite() {
             return infinite;
         }
 
-        public void setInfinite(DifficultyEntity infinite) {
+        public void setInfinite(Difficulty infinite) {
             this.infinite = infinite;
         }
-
-        // Getters and setters
     }
 
-    @Entity
-    @Table(name = "difficulty")
-    public static class DifficultyEntity {
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private int id;
-
-        @Column(name = "level")
+    @XmlAccessorType(XmlAccessType.NONE)
+    public static class Difficulty {
         private int level;
-
-        @Column(name = "illustrator")
         private String illustratedBy;
-
-        @Column(name = "effected_by")
         private String effectedBy;
-
-        @Column(name = "price")
         private int price;
-
-        @Column(name = "limited")
         private int limited;
-
-        @Column(name = "jacket_print")
         private int jacketPrint;
-
-        @Column(name = "jacket_mask")
         private int jacketMask;
-
-        @Column(name = "max_exscore")
         private int maxExscore;
+        private Radar radar;
 
-        @OneToOne(cascade = CascadeType.ALL)
-        @JoinColumn(name = "radar_id", referencedColumnName = "id")
-        private RadarEntity radar;
-
-        public int getId() {
-            return id;
-        }
-
-        public void setId(int id) {
-            this.id = id;
-        }
-
+        @XmlElement(name = "difnum")
         public int getLevel() {
             return level;
         }
@@ -355,6 +296,7 @@ public class MusicEntity {
             this.level = level;
         }
 
+        @XmlElement(name = "illustrator")
         public String getIllustratedBy() {
             return illustratedBy;
         }
@@ -363,6 +305,7 @@ public class MusicEntity {
             this.illustratedBy = illustratedBy;
         }
 
+        @XmlElement(name = "effected_by")
         public String getEffectedBy() {
             return effectedBy;
         }
@@ -371,6 +314,7 @@ public class MusicEntity {
             this.effectedBy = effectedBy;
         }
 
+        @XmlElement(name = "price")
         public int getPrice() {
             return price;
         }
@@ -379,6 +323,7 @@ public class MusicEntity {
             this.price = price;
         }
 
+        @XmlElement(name = "limited")
         public int getLimited() {
             return limited;
         }
@@ -387,6 +332,7 @@ public class MusicEntity {
             this.limited = limited;
         }
 
+        @XmlElement(name = "jacket_print")
         public int getJacketPrint() {
             return jacketPrint;
         }
@@ -395,6 +341,7 @@ public class MusicEntity {
             this.jacketPrint = jacketPrint;
         }
 
+        @XmlElement(name = "jacket_mask")
         public int getJacketMask() {
             return jacketMask;
         }
@@ -403,6 +350,7 @@ public class MusicEntity {
             this.jacketMask = jacketMask;
         }
 
+        @XmlElement(name = "max_exscore")
         public int getMaxExscore() {
             return maxExscore;
         }
@@ -411,50 +359,26 @@ public class MusicEntity {
             this.maxExscore = maxExscore;
         }
 
-        public RadarEntity getRadar() {
+        @XmlElement(name = "radar")
+        public Radar getRadar() {
             return radar;
         }
 
-        public void setRadar(RadarEntity radar) {
+        public void setRadar(Radar radar) {
             this.radar = radar;
         }
-
-        // Getters and setters
     }
 
-    @Entity
-    @Table(name = "radar")
-    public static class RadarEntity {
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private int id;
-
-        @Column(name = "notes")
+    @XmlAccessorType(XmlAccessType.NONE)
+    public static class Radar {
         private int notes;
-
-        @Column(name = "peak")
         private int peak;
-
-        @Column(name = "tsumami")
         private int tsumami;
-
-        @Column(name = "tricky")
         private int tricky;
-
-        @Column(name = "hand_trip")
         private int handTrip;
-
-        @Column(name = "one_hand")
         private int oneHand;
 
-        public int getId() {
-            return id;
-        }
-
-        public void setId(int id) {
-            this.id = id;
-        }
-
+        @XmlElement(name = "notes")
         public int getNotes() {
             return notes;
         }
@@ -463,6 +387,7 @@ public class MusicEntity {
             this.notes = notes;
         }
 
+        @XmlElement(name = "peak")
         public int getPeak() {
             return peak;
         }
@@ -471,6 +396,7 @@ public class MusicEntity {
             this.peak = peak;
         }
 
+        @XmlElement(name = "tsumami")
         public int getTsumami() {
             return tsumami;
         }
@@ -479,6 +405,7 @@ public class MusicEntity {
             this.tsumami = tsumami;
         }
 
+        @XmlElement(name = "tricky")
         public int getTricky() {
             return tricky;
         }
@@ -487,6 +414,7 @@ public class MusicEntity {
             this.tricky = tricky;
         }
 
+        @XmlElement(name = "hand-trip")
         public int getHandTrip() {
             return handTrip;
         }
@@ -495,6 +423,7 @@ public class MusicEntity {
             this.handTrip = handTrip;
         }
 
+        @XmlElement(name = "one-hand")
         public int getOneHand() {
             return oneHand;
         }
@@ -502,6 +431,5 @@ public class MusicEntity {
         public void setOneHand(int oneHand) {
             this.oneHand = oneHand;
         }
-
     }
 }
