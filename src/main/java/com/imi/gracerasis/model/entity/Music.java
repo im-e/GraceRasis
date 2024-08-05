@@ -1,7 +1,12 @@
 package com.imi.gracerasis.model.entity;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document(collection = "music")
 public class Music {
 
+    @Id
     private int id;
     private String label;
     private String title;
@@ -24,6 +29,7 @@ public class Music {
     private Difficulty advanced;
     private Difficulty exhaust;
     private Difficulty infinite;
+    private Difficulty maximum;
 
     public String getAscii() {
         return ascii;
@@ -193,5 +199,11 @@ public class Music {
         this.infinite = infinite;
     }
 
+    public Difficulty getMaximum() {
+        return maximum;
+    }
 
+    public void setMaximum(Difficulty maximum) {
+        this.maximum = maximum;
+    }
 }

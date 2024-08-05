@@ -2,8 +2,8 @@ package com.imi.gracerasis.service;
 
 import com.imi.gracerasis.model.DTO.MusicXml;
 import com.imi.gracerasis.model.DTO.MusicXmlDatabase;
+import com.imi.gracerasis.model.entity.Music;
 import com.imi.gracerasis.model.repository.*;
-import jakarta.transaction.Transactional;
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.Unmarshaller;
@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.util.List;
-import java.util.Objects;
 
 @Service
 public class DatabasePopulationService {
@@ -24,6 +23,7 @@ public class DatabasePopulationService {
 
     private final TrackImageService trackImageService;
     private final EntityMappingService entityMappingService;
+    private final MusicRepository musicRepository;
 
     @Value("${game.data.path}")
     private String gameDataPath;
@@ -31,10 +31,12 @@ public class DatabasePopulationService {
 
     @Autowired
     public DatabasePopulationService(TrackImageService trackImageService,
-                                     EntityMappingService entityMappingService)
+                                     EntityMappingService entityMappingService,
+                                     MusicRepository musicRepository)
     {
         this.trackImageService = trackImageService;
         this.entityMappingService = entityMappingService;
+        this.musicRepository = musicRepository;
     }
 
 
@@ -48,11 +50,22 @@ public class DatabasePopulationService {
         return mdb.getMusic();
     }
 
-    @Transactional
     public void populateDatabase() {
 
         try {
+
+            musicRepository.deleteAll();
+
             List<MusicXml> musicXmlList = getMusicDBData();
+            for (MusicXml m : musicXmlList) {
+
+                Music music = entityMappingService.toMusicObject(m);
+                musicRepository.save(music);
+                logger.info("{}: {} - Added to the database", music.getLabel(), music.getAscii());
+
+            }
+
+
 
             logger.info("Database populated.");
 

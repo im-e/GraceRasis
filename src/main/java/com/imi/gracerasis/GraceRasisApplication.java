@@ -4,8 +4,10 @@ import com.imi.gracerasis.service.DatabasePopulationService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 @SpringBootApplication
+@EnableMongoRepositories(basePackages = "com.imi.gracerasis.model.repository")
 public class GraceRasisApplication implements CommandLineRunner {
 
     private final DatabasePopulationService trackPopulationService;

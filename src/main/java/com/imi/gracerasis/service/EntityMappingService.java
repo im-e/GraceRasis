@@ -28,6 +28,23 @@ public class EntityMappingService {
         music.setDemoPri(dto.getInfo().getDemoPri());
         music.setInfVer(dto.getInfo().getInfVer());
 
+        music.setNovice(toDifficultyObject(dto.getCharts().getNovice()));
+        music.setAdvanced(toDifficultyObject(dto.getCharts().getAdvanced()));
+        music.setExhaust(toDifficultyObject(dto.getCharts().getExhaust()));
+
+        if(dto.getCharts().getInfinite().getLevel() != 0) {
+            music.setInfinite(toDifficultyObject(dto.getCharts().getInfinite()));
+        }
+
+        if(dto.getCharts().getMaximum() != null)
+        {
+            if(dto.getCharts().getMaximum().getLevel() != 0) {
+                music.setMaximum(toDifficultyObject(dto.getCharts().getMaximum()));
+            }
+        }
+
+
+
         return music;
     }
 
@@ -41,7 +58,7 @@ public class EntityMappingService {
         difficulty.setLimited(dto.getLimited());
         difficulty.setJacketPrint(dto.getJacketPrint());
         difficulty.setJacketMask(dto.getJacketMask());
-        difficulty.setMaxExScore(dto.getMaxExscore());
+        difficulty.setMaxExScore(dto.getMaxExScore());
 
         difficulty.setRadarNotes(dto.getRadar().getNotes());
         difficulty.setRadarPeak(dto.getRadar().getPeak());

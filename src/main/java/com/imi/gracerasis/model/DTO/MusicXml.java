@@ -237,6 +237,8 @@ public class MusicXml {
         private Difficulty advanced;
         private Difficulty exhaust;
         private Difficulty infinite;
+        private Difficulty maximum = null;
+
 
         @XmlElement(name = "novice")
         public Difficulty getNovice() {
@@ -273,6 +275,12 @@ public class MusicXml {
         public void setInfinite(Difficulty infinite) {
             this.infinite = infinite;
         }
+
+        @XmlElement(name = "maximum")
+        public Difficulty getMaximum() { return maximum;}
+
+        public void setMaximum(Difficulty maximum) { this.maximum = maximum; }
+
     }
 
     @XmlAccessorType(XmlAccessType.NONE)
@@ -284,7 +292,7 @@ public class MusicXml {
         private int limited;
         private int jacketPrint;
         private int jacketMask;
-        private int maxExscore;
+        private int maxExScore;
         private Radar radar;
 
         @XmlElement(name = "difnum")
@@ -351,12 +359,12 @@ public class MusicXml {
         }
 
         @XmlElement(name = "max_exscore")
-        public int getMaxExscore() {
-            return maxExscore;
+        public int getMaxExScore() {
+            return maxExScore;
         }
 
-        public void setMaxExscore(int maxExscore) {
-            this.maxExscore = maxExscore;
+        public void setMaxExScore(int maxExScore) {
+            this.maxExScore = maxExScore;
         }
 
         @XmlElement(name = "radar")
