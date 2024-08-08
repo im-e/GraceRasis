@@ -3,7 +3,8 @@ import React from 'react';
 function Footer() {
     return (
         <footer style={styles.footer}>
-            <p>&copy; 2024 Your Company Name. All rights reserved.</p>
+            <p>&copy; 2024 GraceRasis.</p>
+            <p>For all your Sound Voltex needs!</p>
         </footer>
     );
 }
