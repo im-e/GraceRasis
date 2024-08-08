@@ -1,12 +1,10 @@
 package com.imi.gracerasis.controller;
 
-import com.imi.gracerasis.model.DTO.MusicXml;
 import com.imi.gracerasis.model.entity.Chart;
 import com.imi.gracerasis.model.entity.Music;
 import com.imi.gracerasis.model.repository.ChartRepository;
 import com.imi.gracerasis.model.repository.MusicRepository;
-import com.imi.gracerasis.service.NearNoahService;
-import com.imi.gracerasis.service.TachiService;
+import io.micrometer.common.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,12 +13,12 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-public class ChartRestController {
+public class MusicRestController {
 
     private final MusicRepository musicRepository;
     private final ChartRepository chartRepository;
 
-    public ChartRestController(MusicRepository musicRepository, ChartRepository chartRepository) {
+    public MusicRestController(MusicRepository musicRepository, ChartRepository chartRepository) {
         this.musicRepository = musicRepository;
         this.chartRepository = chartRepository;
     }
@@ -30,19 +28,22 @@ public class ChartRestController {
 //        return chartRepository.findChartByLevel(level);
 //    }
 
-    @GetMapping("/chart/{musicId}")
-    public List<Chart> getChartByMusicID(@PathVariable int musicId) {
-        return chartRepository.findChartByMusicId(musicId);
-    }
+    @GetMapping("/music")
+    public List<Music> getMusicFromSearch(@RequestParam(required = false) String title,
+                                          @RequestParam(required = false) String artist) {
+        if (StringUtils.isBlank(title) && StringUtils.isBlank(artist)) {
+            return musicRepository.findAll();
+        }
 
-    @GetMapping("/chart/level/{level}")
-    public List<Chart> getChartByLevel(@PathVariable int level) {
-        return chartRepository.findChartByLevel(level);
-    }
+        if (StringUtils.isNotBlank(title) && StringUtils.isNotBlank(artist)) {
+            return musicRepository.findByTitleContainingIgnoreCaseAndArtistContainingIgnoreCase(title, artist);
+        }
 
-    @GetMapping("/charts")
-    public List<Chart> getAllCharts() {
-        return chartRepository.findAll();
+        if (StringUtils.isNotBlank(title)) {
+            return musicRepository.findByTitleContainingIgnoreCase(title);
+        }
+
+        return musicRepository.findByArtistContainingIgnoreCase(artist);
     }
 
 }
