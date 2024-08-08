@@ -1,6 +1,17 @@
 package com.imi.gracerasis.model.entity;
 
-public class Difficulty {
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document(collection = "charts")
+public class Chart {
+
+    @Id
+    private String id;
+
+    private int musicId; // Reference to the Music document
+    private String difficulty; // "novice", "advanced", "exhaust", "infinite", or "maximum"
+
     private int level;
     private String illustratedBy;
     private String effectedBy;
@@ -16,6 +27,30 @@ public class Difficulty {
     private int radarTricky;
     private int radarHandTrip;
     private int radarOneHand;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public int getMusicId() {
+        return musicId;
+    }
+
+    public void setMusicId(int musicId) {
+        this.musicId = musicId;
+    }
+
+    public String getDifficulty() {
+        return difficulty;
+    }
+
+    public void setDifficulty(String difficulty) {
+        this.difficulty = difficulty;
+    }
 
     public int getLevel() {
         return level;

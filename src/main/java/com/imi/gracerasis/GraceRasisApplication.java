@@ -22,7 +22,7 @@ public class GraceRasisApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        trackPopulationService.populateDatabase();
+        //trackPopulationService.populateDatabase();
     }
 
 }

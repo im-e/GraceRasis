@@ -2,6 +2,7 @@ package com.imi.gracerasis.service;
 
 import com.imi.gracerasis.model.DTO.MusicXml;
 import com.imi.gracerasis.model.DTO.MusicXmlDatabase;
+import com.imi.gracerasis.model.entity.Chart;
 import com.imi.gracerasis.model.entity.Music;
 import com.imi.gracerasis.model.repository.*;
 import jakarta.xml.bind.JAXBContext;
@@ -22,8 +23,9 @@ public class DatabasePopulationService {
     private static final Logger logger = LoggerFactory.getLogger(DatabasePopulationService.class);
 
     private final TrackImageService trackImageService;
-    private final EntityMappingService entityMappingService;
+    private final ObjectMappingService objectMappingService;
     private final MusicRepository musicRepository;
+    private final ChartRepository chartRepository;
 
     @Value("${game.data.path}")
     private String gameDataPath;
@@ -31,12 +33,14 @@ public class DatabasePopulationService {
 
     @Autowired
     public DatabasePopulationService(TrackImageService trackImageService,
-                                     EntityMappingService entityMappingService,
-                                     MusicRepository musicRepository)
+                                     ObjectMappingService objectMappingService,
+                                     MusicRepository musicRepository,
+                                     ChartRepository chartRepository)
     {
         this.trackImageService = trackImageService;
-        this.entityMappingService = entityMappingService;
+        this.objectMappingService = objectMappingService;
         this.musicRepository = musicRepository;
+        this.chartRepository = chartRepository;
     }
 
 
@@ -59,13 +63,36 @@ public class DatabasePopulationService {
             List<MusicXml> musicXmlList = getMusicDBData();
             for (MusicXml m : musicXmlList) {
 
-                Music music = entityMappingService.toMusicObject(m);
+                Music music = objectMappingService.toMusicObject(m);
                 musicRepository.save(music);
                 logger.info("{}: {} - Added to the database", music.getLabel(), music.getAscii());
 
+
+                Chart novice = objectMappingService.toChartObject(m.getCharts().getNovice(), m.getId(), "Novice");
+                Chart advanced = objectMappingService.toChartObject(m.getCharts().getAdvanced(), m.getId(), "Advanced");
+                Chart exhaust = objectMappingService.toChartObject(m.getCharts().getExhaust(), m.getId(), "Exhaust");
+                Chart last = null;
+
+                if(m.getCharts().getInfinite().getLevel() != 0) {
+                    last = objectMappingService.toChartObject(m.getCharts().getInfinite(), m.getId(), "Infinite");
+                }
+
+                if(m.getCharts().getMaximum() != null)
+                {
+                    if(m.getCharts().getMaximum().getLevel() != 0) {
+                        last = objectMappingService.toChartObject(m.getCharts().getMaximum(), m.getId(), "Maximum");
+                    }
+                }
+
+                chartRepository.save(novice);
+                chartRepository.save(advanced);
+                chartRepository.save(exhaust);
+                if(last != null) {
+                    chartRepository.save(last);
+                }
+
+
             }
-
-
 
             logger.info("Database populated.");
 

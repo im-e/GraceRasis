@@ -1,7 +1,9 @@
 package com.imi.gracerasis.model.entity;
 
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+
 
 @Document(collection = "music")
 public class Music {
@@ -25,11 +27,6 @@ public class Music {
     private int demoPri;
     private int infVer;
 
-    private Difficulty novice;
-    private Difficulty advanced;
-    private Difficulty exhaust;
-    private Difficulty infinite;
-    private Difficulty maximum;
 
     public String getAscii() {
         return ascii;
@@ -165,45 +162,5 @@ public class Music {
 
     public void setInfVer(int infVer) {
         this.infVer = infVer;
-    }
-
-    public Difficulty getNovice() {
-        return novice;
-    }
-
-    public void setNovice(Difficulty novice) {
-        this.novice = novice;
-    }
-
-    public Difficulty getAdvanced() {
-        return advanced;
-    }
-
-    public void setAdvanced(Difficulty advanced) {
-        this.advanced = advanced;
-    }
-
-    public Difficulty getExhaust() {
-        return exhaust;
-    }
-
-    public void setExhaust(Difficulty exhaust) {
-        this.exhaust = exhaust;
-    }
-
-    public Difficulty getInfinite() {
-        return infinite;
-    }
-
-    public void setInfinite(Difficulty infinite) {
-        this.infinite = infinite;
-    }
-
-    public Difficulty getMaximum() {
-        return maximum;
-    }
-
-    public void setMaximum(Difficulty maximum) {
-        this.maximum = maximum;
     }
 }
