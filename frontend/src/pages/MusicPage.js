@@ -1,5 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
+import {
+    Container,
+    Typography,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    Paper,
+    Card, CardMedia
+} from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
 function MusicPage() {
@@ -45,7 +56,7 @@ function MusicPage() {
                 <Table>
                     <TableHead>
                         <TableRow>
-                            <TableCell>ID</TableCell>
+                            <TableCell>Jacket</TableCell>
                             <TableCell>Title</TableCell>
                             <TableCell>Artist</TableCell>
                             <TableCell>BPM</TableCell>
@@ -61,7 +72,18 @@ function MusicPage() {
                                 style={{ cursor: 'pointer' }}
                                 hover
                             >
-                                <TableCell>{music.id}</TableCell>
+                                <TableCell>
+                                    {music.jacketLink && (
+                                        <Card style={{ width: '50px', height: '50px' }}>
+                                            <CardMedia
+                                                component="img"
+                                                height="50"
+                                                image={music.jacketLink}
+                                                alt={music.title}
+                                            />
+                                        </Card>
+                                    )}
+                                </TableCell>
                                 <TableCell>{music.title}</TableCell>
                                 <TableCell>{music.artist}</TableCell>
                                 <TableCell>

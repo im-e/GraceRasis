@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Container, Typography, Paper, Grid, Button } from '@mui/material';
+import {Container, Typography, Paper, Grid, Button, Card, CardMedia} from '@mui/material';
 
 function MusicDetailPage() {
     const [music, setMusic] = useState(null);
@@ -46,9 +46,22 @@ function MusicDetailPage() {
     return (
         <Container maxWidth="lg">
             <Paper elevation={3} style={{ padding: '20px', marginTop: '20px', marginBottom: '20px' }}>
-                <Typography variant="h4" gutterBottom>{music.title}</Typography>
                 <Grid container spacing={2}>
-                    <Grid item xs={12} sm={6}>
+                    <Grid item xs={12} sm={4}>
+                        {music.jacketLink && (
+                            <Card>
+                                <CardMedia
+                                    component="img"
+                                    height="300"
+                                    image={music.jacketLink}
+                                    alt={music.title}
+                                />
+                            </Card>
+                        )}
+                    </Grid>
+                    <Grid item xs={12} sm={8}>
+                        <Typography variant="h4" gutterBottom>{music.title}</Typography>
+                        <Grid item xs={12} sm={6}>
                         <Typography><strong>ID:</strong> {music.id}</Typography>
                         <Typography><strong>Label:</strong> {music.label}</Typography>
                         <Typography><strong>Artist:</strong> {music.artist}</Typography>
@@ -62,14 +75,15 @@ function MusicDetailPage() {
                         }</Typography>
                         <Typography><strong>Distribution Date:</strong> {formatDate(music.distributionDate)}</Typography>
                         <Typography><strong>Volume:</strong> {music.volume}</Typography>
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
                         <Typography><strong>Background Number:</strong> {music.bgNo}</Typography>
                         <Typography><strong>Genre:</strong> {music.genre}</Typography>
                         <Typography><strong>Is Fixed:</strong> {music.fixed ? 'Yes' : 'No'}</Typography>
                         <Typography><strong>Version:</strong> {music.version}</Typography>
                         <Typography><strong>Demo Priority:</strong> {music.demoPri}</Typography>
                         <Typography><strong>Information Version:</strong> {music.infVer}</Typography>
+                        </Grid>
                     </Grid>
                 </Grid>
             </Paper>
@@ -78,28 +92,44 @@ function MusicDetailPage() {
                 <Typography variant="h5" gutterBottom>Charts</Typography>
                 {charts.map((chart) => (
                     <Paper key={chart.id} elevation={2} style={{ padding: '15px', marginTop: '15px' }}>
-                        <Typography variant="h6" gutterBottom><strong>{chart.difficulty} (Level {chart.level})</strong></Typography>
                         <Grid container spacing={2}>
-                            <Grid item xs={12} sm={6}>
-                                <Typography><strong>Illustrated By:</strong> {chart.illustratedBy}</Typography>
-                                <Typography><strong>Effected By:</strong> {chart.effectedBy}</Typography>
-                                <Typography><strong>Max Ex Score:</strong> {chart.maxExScore}</Typography>
-                                <Typography><strong>Price:</strong> {chart.price}</Typography>
-                                <Typography><strong>Limited:</strong> {chart.limited}</Typography>
-                                <Typography><strong>Jacket Print:</strong> {chart.jacketPrint}</Typography>
-                                <Typography><strong>Jacket Mask:</strong> {chart.jacketMask}</Typography>
+                            <Grid item xs={12} sm={3}>
+                                {chart.jacketLink && (
+                                    <Card>
+                                        <CardMedia
+                                            component="img"
+                                            height="200"
+                                            image={chart.jacketLink}
+                                            alt={`${music.title} - ${chart.difficulty}`}
+                                        />
+                                    </Card>
+                                )}
                             </Grid>
-                            <Grid item xs={12} sm={6}>
-                                <Typography><strong>Radar Notes:</strong> {chart.radarNotes}</Typography>
-                                <Typography><strong>Radar Peak:</strong> {chart.radarPeak}</Typography>
-                                <Typography><strong>Radar Tsumami:</strong> {chart.radarTsumami}</Typography>
-                                <Typography><strong>Radar Tricky:</strong> {chart.radarTricky}</Typography>
-                                <Typography><strong>Radar Hand Trip:</strong> {chart.radarHandTrip}</Typography>
-                                <Typography><strong>Radar One Hand:</strong> {chart.radarOneHand}</Typography>
+                            <Grid item xs={12} sm={9}>
+                                <Typography variant="h6" gutterBottom><strong>{chart.difficulty} (Level {chart.level})</strong></Typography>
+                                <Grid container spacing={2}>
+                                    <Grid item xs={12} sm={6}>
+                                        <Typography><strong>Illustrated By:</strong> {chart.illustratedBy}</Typography>
+                                        <Typography><strong>Effected By:</strong> {chart.effectedBy}</Typography>
+                                        <Typography><strong>Max Ex Score:</strong> {chart.maxExScore}</Typography>
+                                        <Typography><strong>Price:</strong> {chart.price}</Typography>
+                                        <Typography><strong>Limited:</strong> {chart.limited}</Typography>
+                                        <Typography><strong>Jacket Print:</strong> {chart.jacketPrint}</Typography>
+                                        <Typography><strong>Jacket Mask:</strong> {chart.jacketMask}</Typography>
+                                    </Grid>
+                                    <Grid item xs={12} sm={6}>
+                                        <Typography><strong>Radar Notes:</strong> {chart.radarNotes}</Typography>
+                                        <Typography><strong>Radar Peak:</strong> {chart.radarPeak}</Typography>
+                                        <Typography><strong>Radar Tsumami:</strong> {chart.radarTsumami}</Typography>
+                                        <Typography><strong>Radar Tricky:</strong> {chart.radarTricky}</Typography>
+                                        <Typography><strong>Radar Hand Trip:</strong> {chart.radarHandTrip}</Typography>
+                                        <Typography><strong>Radar One Hand:</strong> {chart.radarOneHand}</Typography>
+                                    </Grid>
+                                </Grid>
                             </Grid>
                         </Grid>
                     </Paper>
-                ))}
+                    ))}
             </Paper>
 
             <Button

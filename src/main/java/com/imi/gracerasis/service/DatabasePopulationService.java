@@ -22,25 +22,27 @@ public class DatabasePopulationService {
 
     private static final Logger logger = LoggerFactory.getLogger(DatabasePopulationService.class);
 
-    private final TrackImageService trackImageService;
+    private final ChartJacketService chartJacketService;
     private final ObjectMappingService objectMappingService;
     private final MusicRepository musicRepository;
     private final ChartRepository chartRepository;
+    private final GoogleCloudStorageService googleCloudStorageService;
 
     @Value("${game.data.path}")
     private String gameDataPath;
 
 
     @Autowired
-    public DatabasePopulationService(TrackImageService trackImageService,
+    public DatabasePopulationService(ChartJacketService chartJacketService,
                                      ObjectMappingService objectMappingService,
                                      MusicRepository musicRepository,
-                                     ChartRepository chartRepository)
+                                     ChartRepository chartRepository, GoogleCloudStorageService googleCloudStorageService)
     {
-        this.trackImageService = trackImageService;
+        this.chartJacketService = chartJacketService;
         this.objectMappingService = objectMappingService;
         this.musicRepository = musicRepository;
         this.chartRepository = chartRepository;
+        this.googleCloudStorageService = googleCloudStorageService;
     }
 
 
@@ -54,25 +56,33 @@ public class DatabasePopulationService {
         return mdb.getMusic();
     }
 
+    private void assignJacket(Chart chart, String jacketURL) {
+        chart.setJacketLink(jacketURL);
+    }
+
     public void populateDatabase() {
 
         try {
 
             musicRepository.deleteAll();
+            chartRepository.deleteAll();
 
+            //get music from dbxml
             List<MusicXml> musicXmlList = getMusicDBData();
+
+            //for each music
             for (MusicXml m : musicXmlList) {
-
+                //separate into music and chart objects
+                //music mapping
                 Music music = objectMappingService.toMusicObject(m);
-                musicRepository.save(music);
-                logger.info("{}: {} - Added to the database", music.getLabel(), music.getAscii());
-
-
+                //chart mapping
                 Chart novice = objectMappingService.toChartObject(m.getCharts().getNovice(), m.getId(), "Novice");
                 Chart advanced = objectMappingService.toChartObject(m.getCharts().getAdvanced(), m.getId(), "Advanced");
                 Chart exhaust = objectMappingService.toChartObject(m.getCharts().getExhaust(), m.getId(), "Exhaust");
                 Chart last = null;
 
+                //set final difficulty
+                //TODO: set gravity, heavenly, vivid, exceed difficulties correctly
                 if(m.getCharts().getInfinite().getLevel() != 0) {
                     last = objectMappingService.toChartObject(m.getCharts().getInfinite(), m.getId(), "Infinite");
                 }
@@ -84,23 +94,58 @@ public class DatabasePopulationService {
                     }
                 }
 
+                //get the jacket filepaths for current song
+                List<String> jacketFilepaths = chartJacketService.getJacketFilepaths(m);
+                //upload and return the uploaded links for the images
+                List<String> jacketURLs = googleCloudStorageService.uploadJackets(jacketFilepaths);
+
+                // Assign jackets based on the number of available jackets
+                switch (jacketURLs.size()) {
+                    case 1:
+                        assignJacket(novice, jacketURLs.get(0));
+                        assignJacket(advanced, jacketURLs.get(0));
+                        assignJacket(exhaust, jacketURLs.get(0));
+                        if (last != null) assignJacket(last, jacketURLs.get(0));
+                        break;
+                    case 2:
+                        assignJacket(novice, jacketURLs.get(0));
+                        assignJacket(advanced, jacketURLs.get(0));
+                        assignJacket(exhaust, jacketURLs.get(0));
+                        if (last != null) assignJacket(last, jacketURLs.get(1));
+                        break;
+                    case 3:
+                        assignJacket(novice, jacketURLs.get(0));
+                        assignJacket(advanced, jacketURLs.get(1));
+                        assignJacket(exhaust, jacketURLs.get(2));
+                        if (last != null) assignJacket(last, jacketURLs.get(2));
+                        break;
+                    case 4:
+                        assignJacket(novice, jacketURLs.get(0));
+                        assignJacket(advanced, jacketURLs.get(1));
+                        assignJacket(exhaust, jacketURLs.get(2));
+                        if (last != null) assignJacket(last, jacketURLs.get(3));
+                        break;
+                    default:
+                        // Handle unexpected number of jackets
+                        System.out.println("Unexpected number of jackets: " + jacketURLs.size());
+                }
+
+                //set the final (most recognised) jacket to the music
+                music.setJacketLink(jacketURLs.getLast());
+                //save and add to db
+                musicRepository.save(music);
+                logger.info("{}: {} - Added to the database", music.getLabel(), music.getAscii());
+
+                //save the charts to db
                 chartRepository.save(novice);
                 chartRepository.save(advanced);
                 chartRepository.save(exhaust);
                 if(last != null) {
                     chartRepository.save(last);
                 }
-
-
             }
 
             logger.info("Database populated.");
-
-//            for(Music music : musicList) TODO: Create a way to store the images not as binary objects
-//            {
-//                trackImageService.processTrack(music);
-//
-//            }
 
         } catch (Exception e){
             e.printStackTrace();

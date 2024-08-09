@@ -11,4 +11,5 @@ public interface MusicRepository extends MongoRepository<Music, String> {
     List<Music> findByArtistContainingIgnoreCase(String artistPart);
     List<Music> findByTitleContainingIgnoreCaseAndArtistContainingIgnoreCase(String title, String artist);
 
+    Music getMusicById(int id);
 }
