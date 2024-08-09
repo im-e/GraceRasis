@@ -13,11 +13,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class TrackImageService {
+public class ChartJacketService {
 
     private final Path gameDataPath;
 
-    public TrackImageService(@Value("${game.data.path}") String gameDataPath) {
+    public ChartJacketService(@Value("${game.data.path}") String gameDataPath) {
         this.gameDataPath = Paths.get(gameDataPath);
     }
 
@@ -25,11 +25,10 @@ public class TrackImageService {
         return String.format("%04d", trackId);
     }
 
-    public void processTrack(MusicXml musicXml) throws IOException {
+    public List<String> getJacketFilepaths(MusicXml musicXml) throws IOException {
 
         Path musicPath = gameDataPath.resolve("contents").resolve("data").resolve("music");
         String paddedId = getPaddedTrackId(musicXml.getId());
-
 
         List<Path> matchingDirs = Files.walk(musicPath, 1)
                 .filter(Files::isDirectory)
@@ -38,27 +37,22 @@ public class TrackImageService {
 
         if (matchingDirs.isEmpty()) {
             throw new FileNotFoundException("No directory found for track " + paddedId
-            + " at: " + musicPath.toAbsolutePath());
+                    + " at: " + musicPath.toAbsolutePath());
         }
 
         Path trackDir = matchingDirs.getFirst();
-        List<byte[]> jacketImages = new ArrayList<>();
+        List<String> jacketImagePaths = new ArrayList<>();
 
         for (int i = 1; i <= 5; i++) {
             String jacketName = "jk_" + paddedId + "_" + i;
             Path jacketPath = trackDir.resolve(jacketName + ".png");
 
             if (Files.exists(jacketPath)) {
-                byte[] imageData = Files.readAllBytes(jacketPath);
-                jacketImages.add(imageData);
-            }
-            else
-            {
-                System.out.println("No jacket found for track " + paddedId + " at: " + jacketPath);
+                jacketImagePaths.add(jacketPath.toAbsolutePath().toString());
             }
         }
 
-        //music.setJacketImages(jacketImages);
+        return jacketImagePaths;
     }
 
 }

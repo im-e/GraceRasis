@@ -26,7 +26,15 @@ public class Music {
     private int version;
     private int demoPri;
     private int infVer;
+    private String jacketLink;
 
+    public String getJacketLink() {
+        return jacketLink;
+    }
+
+    public void setJacketLink(String jacketLink) {
+        this.jacketLink = jacketLink;
+    }
 
     public String getAscii() {
         return ascii;
