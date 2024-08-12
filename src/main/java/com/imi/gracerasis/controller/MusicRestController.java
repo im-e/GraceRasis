@@ -47,6 +47,11 @@ public class MusicRestController {
         return musicRepository.findByArtistContainingIgnoreCase(artist);
     }
 
+    @GetMapping("/music/level/{level}")
+    public List<Music> getMusicFromLevel(@PathVariable int level) {
+        return musicRepository.findByNoviceLevelOrAdvancedLevelOrExhaustLevelOrFinalLevel(level, level, level, level);
+    }
+
     @GetMapping("/music/all")
     public List<Music> getAllMusic() {
         return musicRepository.findAll();

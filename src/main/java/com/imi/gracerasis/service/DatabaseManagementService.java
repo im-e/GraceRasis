@@ -16,11 +16,12 @@ import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.util.List;
+import java.util.Objects;
 
 @Service
-public class DatabasePopulationService {
+public class DatabaseManagementService {
 
-    private static final Logger logger = LoggerFactory.getLogger(DatabasePopulationService.class);
+    private static final Logger logger = LoggerFactory.getLogger(DatabaseManagementService.class);
 
     private final ChartJacketService chartJacketService;
     private final ObjectMappingService objectMappingService;
@@ -33,7 +34,7 @@ public class DatabasePopulationService {
 
 
     @Autowired
-    public DatabasePopulationService(ChartJacketService chartJacketService,
+    public DatabaseManagementService(ChartJacketService chartJacketService,
                                      ObjectMappingService objectMappingService,
                                      MusicRepository musicRepository,
                                      ChartRepository chartRepository, GoogleCloudStorageService googleCloudStorageService)
@@ -60,42 +61,49 @@ public class DatabasePopulationService {
         chart.setJacketLink(jacketURL);
     }
 
+    private void clearExistingData() {
+        musicRepository.deleteAll();
+        chartRepository.deleteAll();
+    }
+
     public void populateDatabase() {
 
         try {
 
-            musicRepository.deleteAll();
-            chartRepository.deleteAll();
+            clearExistingData();
 
             //get music from dbxml
             List<MusicXml> musicXmlList = getMusicDBData();
 
             //for each music
-            for (MusicXml m : musicXmlList) {
+            for (MusicXml musicXml : musicXmlList) {
                 //separate into music and chart objects
                 //music mapping
-                Music music = objectMappingService.toMusicObject(m);
+                Music music = objectMappingService.toMusicObject(musicXml);
                 //chart mapping
-                Chart novice = objectMappingService.toChartObject(m.getCharts().getNovice(), m.getId(), "Novice");
-                Chart advanced = objectMappingService.toChartObject(m.getCharts().getAdvanced(), m.getId(), "Advanced");
-                Chart exhaust = objectMappingService.toChartObject(m.getCharts().getExhaust(), m.getId(), "Exhaust");
+                Chart novice = objectMappingService.toChartObject(musicXml.getCharts().getNovice(), musicXml, "Novice");
+                Chart advanced = objectMappingService.toChartObject(musicXml.getCharts().getAdvanced(), musicXml, "Advanced");
+                Chart exhaust = objectMappingService.toChartObject(musicXml.getCharts().getExhaust(), musicXml, "Exhaust");
                 Chart last = null;
 
                 //set final difficulty
-                //TODO: set gravity, heavenly, vivid, exceed difficulties correctly
-                if(m.getCharts().getInfinite().getLevel() != 0) {
-                    last = objectMappingService.toChartObject(m.getCharts().getInfinite(), m.getId(), "Infinite");
+                if(musicXml.getCharts().getInfinite().getLevel() != 0) {
+                    last = objectMappingService.toChartObject(musicXml.getCharts().getInfinite(), musicXml, "Infinite");
+                    music.setFinalLevel(last.getLevel());
+                    music.setFinalDifficulty(last.getDifficulty());
                 }
 
-                if(m.getCharts().getMaximum() != null)
+                if(musicXml.getCharts().getMaximum() != null)
                 {
-                    if(m.getCharts().getMaximum().getLevel() != 0) {
-                        last = objectMappingService.toChartObject(m.getCharts().getMaximum(), m.getId(), "Maximum");
+                    if(musicXml.getCharts().getMaximum().getLevel() != 0) {
+                        last = objectMappingService.toChartObject(musicXml.getCharts().getMaximum(), musicXml, "Maximum");
+                        music.setFinalLevel(last.getLevel());
+                        music.setFinalDifficulty(last.getDifficulty());
                     }
                 }
 
                 //get the jacket filepaths for current song
-                List<String> jacketFilepaths = chartJacketService.getJacketFilepaths(m);
+                List<String> jacketFilepaths = chartJacketService.getJacketFilepaths(musicXml);
                 //upload and return the uploaded links for the images
                 List<String> jacketURLs = googleCloudStorageService.uploadJackets(jacketFilepaths);
 
@@ -151,6 +159,68 @@ public class DatabasePopulationService {
             e.printStackTrace();
         }
 
+    }
+
+    public void updateDatabase() {
+        List<Music> musicList = musicRepository.findAll();
+
+        for (Music music : musicList) {
+            List<Chart> charts = chartRepository.findChartByMusicId(music.getId());
+            boolean musicUpdated = false;
+
+            if (!charts.isEmpty()) {
+                charts.get(0).setTitle(music.getTitle());
+                charts.get(0).setArtist(music.getArtist());
+                chartRepository.save(charts.get(0));
+                musicUpdated = true;
+            }
+            if (charts.size() >= 2) {
+                music.setAdvancedLevel(charts.get(1).getLevel());
+                charts.get(1).setTitle(music.getTitle());
+                charts.get(1).setArtist(music.getArtist());
+                chartRepository.save(charts.get(1));
+            }
+            if (charts.size() >= 3) {
+                music.setExhaustLevel(charts.get(2).getLevel());
+                charts.get(2).setTitle(music.getTitle());
+                charts.get(2).setArtist(music.getArtist());
+                chartRepository.save(charts.get(2));
+            }
+            if (charts.size() >= 4) {
+                Chart finalChart = charts.get(3);
+                music.setFinalLevel(finalChart.getLevel());
+                music.setFinalDifficulty(finalChart.getDifficulty());
+                finalChart.setTitle(music.getTitle());
+                finalChart.setArtist(music.getArtist());
+
+                if ("Infinite".equals(finalChart.getDifficulty())) {
+                    switch (music.getInfVer()) {
+                        case 3:
+                            finalChart.setDifficulty("Gravity");
+                            break;
+                        case 4:
+                            finalChart.setDifficulty("Heavenly");
+                            break;
+                        case 5:
+                            finalChart.setDifficulty("Vivid");
+                            break;
+                        case 6:
+                            finalChart.setDifficulty("Exceed");
+                            break;
+                        default:
+                            finalChart.setDifficulty("Infinite");
+                            break;
+                    }
+                }
+                chartRepository.save(finalChart);
+            }
+
+            if (musicUpdated) {
+                musicRepository.save(music);
+            }
+
+            logger.info("updated music: {}, with {} charts updated", music.getLabel(), charts.size());
+        }
     }
 
 }

@@ -6,6 +6,7 @@ import Footer from './components/Footer';
 import HomePage from './pages/HomePage';
 import MusicPage from './pages/MusicPage';
 import MusicDetailPage from './pages/MusicDetailPage';
+import ChartListPage from './pages/ChartListPage';
 
 function App() {
     return (
@@ -18,6 +19,8 @@ function App() {
                         <Route path="/" element={<HomePage />} />
                         <Route path="/music" element={<MusicPage />} />
                         <Route path="/music/:id" element={<MusicDetailPage />} />
+                        <Route path="/charts" element={<ChartListPage />} />
+                        <Route path="/charts/:difficulty" element={<ChartListPage />} />
                     </Routes>
                 </Box>
                 <Footer />

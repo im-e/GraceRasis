@@ -10,6 +10,6 @@ public interface MusicRepository extends MongoRepository<Music, String> {
     List<Music> findByTitleContainingIgnoreCase(String titlePart);
     List<Music> findByArtistContainingIgnoreCase(String artistPart);
     List<Music> findByTitleContainingIgnoreCaseAndArtistContainingIgnoreCase(String title, String artist);
-
+    List<Music> findByNoviceLevelOrAdvancedLevelOrExhaustLevelOrFinalLevel(int noviceLevel, int advancedLevel, int exhaustLevel, int finalLevel);
     Music getMusicById(int id);
 }

@@ -28,6 +28,52 @@ public class Music {
     private int infVer;
     private String jacketLink;
 
+    private int noviceLevel;
+    private int advancedLevel;
+    private int exhaustLevel;
+    private int finalLevel;
+    private String finalDifficulty;
+
+    public String getFinalDifficulty() {
+        return finalDifficulty;
+    }
+
+    public void setFinalDifficulty(String finalDifficulty) {
+        this.finalDifficulty = finalDifficulty;
+    }
+
+    public int getNoviceLevel() {
+        return noviceLevel;
+    }
+
+    public void setNoviceLevel(int noviceLevel) {
+        this.noviceLevel = noviceLevel;
+    }
+
+    public int getAdvancedLevel() {
+        return advancedLevel;
+    }
+
+    public void setAdvancedLevel(int advancedLevel) {
+        this.advancedLevel = advancedLevel;
+    }
+
+    public int getExhaustLevel() {
+        return exhaustLevel;
+    }
+
+    public void setExhaustLevel(int exhaustLevel) {
+        this.exhaustLevel = exhaustLevel;
+    }
+
+    public int getFinalLevel() {
+        return finalLevel;
+    }
+
+    public void setFinalLevel(int finalLevel) {
+        this.finalLevel = finalLevel;
+    }
+
     public String getJacketLink() {
         return jacketLink;
     }

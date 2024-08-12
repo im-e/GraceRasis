@@ -61,28 +61,22 @@ function MusicDetailPage() {
                     </Grid>
                     <Grid item xs={12} sm={8}>
                         <Typography variant="h4" gutterBottom>{music.title}</Typography>
+                        <Typography variant="h5" gutterBottom>{music.artist}</Typography>
                         <Grid item xs={12} sm={6}>
                         <Typography><strong>ID:</strong> {music.id}</Typography>
-                        <Typography><strong>Label:</strong> {music.label}</Typography>
-                        <Typography><strong>Artist:</strong> {music.artist}</Typography>
                         <Typography><strong>Title Yomigana:</strong> {music.titleYomigana}</Typography>
                         <Typography><strong>Artist Yomigana:</strong> {music.artistYomigana}</Typography>
-                        <Typography><strong>ASCII:</strong> {music.ascii}</Typography>
                         <Typography><strong>BPM:</strong> {
                             music.bpmMin === music.bpmMax
                                 ? formatBPM(music.bpmMin)
                                 : `${formatBPM(music.bpmMin)} - ${formatBPM(music.bpmMax)}`
                         }</Typography>
                         <Typography><strong>Distribution Date:</strong> {formatDate(music.distributionDate)}</Typography>
-                        <Typography><strong>Volume:</strong> {music.volume}</Typography>
                         </Grid>
                         <Grid item xs={12} sm={6}>
                         <Typography><strong>Background Number:</strong> {music.bgNo}</Typography>
                         <Typography><strong>Genre:</strong> {music.genre}</Typography>
-                        <Typography><strong>Is Fixed:</strong> {music.fixed ? 'Yes' : 'No'}</Typography>
-                        <Typography><strong>Version:</strong> {music.version}</Typography>
-                        <Typography><strong>Demo Priority:</strong> {music.demoPri}</Typography>
-                        <Typography><strong>Information Version:</strong> {music.infVer}</Typography>
+                        <Typography><strong>Infinite Version:</strong> {music.infVer}</Typography>
                         </Grid>
                     </Grid>
                 </Grid>

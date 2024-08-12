@@ -15,6 +15,9 @@ public class Chart {
     private String jacketLink;
 
     private int level;
+
+    private String title;
+    private String artist;
     private String illustratedBy;
     private String effectedBy;
     private int price;
@@ -29,6 +32,22 @@ public class Chart {
     private int radarTricky;
     private int radarHandTrip;
     private int radarOneHand;
+
+    public String getArtist() {
+        return artist;
+    }
+
+    public void setArtist(String artist) {
+        this.artist = artist;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
     public String getJacketLink() {
         return jacketLink;

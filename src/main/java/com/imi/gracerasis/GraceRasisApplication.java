@@ -1,6 +1,6 @@
 package com.imi.gracerasis;
 
-import com.imi.gracerasis.service.DatabasePopulationService;
+import com.imi.gracerasis.service.DatabaseManagementService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -10,10 +10,10 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 @EnableMongoRepositories(basePackages = "com.imi.gracerasis.model.repository")
 public class GraceRasisApplication implements CommandLineRunner {
 
-    private final DatabasePopulationService databasePopulationService;
+    private final DatabaseManagementService databaseManagementService;
 
-    public GraceRasisApplication(DatabasePopulationService trackPopulationService) {
-        this.databasePopulationService = trackPopulationService;
+    public GraceRasisApplication(DatabaseManagementService trackPopulationService) {
+        this.databaseManagementService = trackPopulationService;
     }
 
     public static void main(String[] args) {
@@ -23,6 +23,7 @@ public class GraceRasisApplication implements CommandLineRunner {
     @Override
     public void run(String... args) {
         //databasePopulationService.populateDatabase();
+        //databaseManagementService.updateDatabase();
     }
 
 }
