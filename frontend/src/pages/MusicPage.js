@@ -220,6 +220,7 @@ function MusicPage() {
                                         display: 'flex',
                                         flexDirection: 'column',
                                         cursor: 'pointer',
+                                        backgroundColor: 'primary.light',
                                         '&:hover': {
                                             boxShadow: 6,
                                             transition: 'box-shadow 0.3s ease-in-out'

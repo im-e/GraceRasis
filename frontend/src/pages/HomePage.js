@@ -17,20 +17,7 @@ import {
     CssBaseline
 } from '@mui/material';
 import { Search, MusicNote, BarChart, FlashOn, Album } from '@mui/icons-material';
-
-const theme = createTheme({
-    palette: {
-        primary: {
-            main: '#3f51b5',
-        },
-        secondary: {
-            main: '#f50057',
-        },
-        background: {
-            default: '#f5f5f5',
-        },
-    },
-});
+import pastelTheme from '../pastelTheme';
 
 const StatCard = ({ icon: Icon, title, value }) => (
     <Paper elevation={3} sx={{ p: 2, height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
@@ -46,7 +33,7 @@ const StatCard = ({ icon: Icon, title, value }) => (
 
 export default function HomePage() {
     return (
-        <ThemeProvider theme={theme}>
+        <ThemeProvider theme={pastelTheme}>
             <CssBaseline />
             <Box sx={{ flexGrow: 1, minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
                 <Container maxWidth="lg" sx={{ mt: 4, mb: 4, flexGrow: 1 }}>
