@@ -14,21 +14,38 @@ import {
     ListItemText,
     ThemeProvider,
     createTheme,
-    CssBaseline
+    CssBaseline,
+    Card,
+    CardContent,
+    CardMedia
 } from '@mui/material';
-import { Search, MusicNote, BarChart, FlashOn, Album } from '@mui/icons-material';
+import { Search, MusicNote, BarChart, FlashOn, Album, Image } from '@mui/icons-material';
 import pastelTheme from '../pastelTheme';
+import headingImage from '../images/sdvx_banner.webp';
 
 const StatCard = ({ icon: Icon, title, value }) => (
-    <Paper elevation={3} sx={{ p: 2, height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-        <Icon color="primary" sx={{ fontSize: 40, mb: 1 }} />
-        <Typography variant="h6" component="h3" gutterBottom>
-            {title}
-        </Typography>
-        <Typography variant="h4" component="p">
-            {value}
-        </Typography>
-    </Paper>
+    <Card elevation={3} sx={{ height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', bgcolor: 'background.paper', transition: '0.3s', '&:hover': { transform: 'translateY(-5px)', boxShadow: 6 } }}>
+        <CardContent sx={{ textAlign: 'center' }}>
+            <Icon color="primary" sx={{ fontSize: 48, mb: 2 }} />
+            <Typography variant="h6" component="h3" gutterBottom>
+                {title}
+            </Typography>
+            <Typography variant="h5" component="p" color="text.secondary">
+                {value}
+            </Typography>
+        </CardContent>
+    </Card>
+);
+
+const InfoCard = ({ title, children }) => (
+    <Card elevation={3} sx={{ height: '100%', bgcolor: 'background.paper', transition: '0.3s', '&:hover': { transform: 'translateY(-5px)', boxShadow: 6 } }}>
+        <CardContent>
+            <Typography variant="h6" component="h2" gutterBottom color="primary">
+                {title}
+            </Typography>
+            {children}
+        </CardContent>
+    </Card>
 );
 
 export default function HomePage() {
@@ -36,14 +53,40 @@ export default function HomePage() {
         <ThemeProvider theme={pastelTheme}>
             <CssBaseline />
             <Box sx={{ flexGrow: 1, minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
-                <Container maxWidth="lg" sx={{ mt: 4, mb: 4, flexGrow: 1 }}>
-                    <Box sx={{ mb: 6, textAlign: 'center' }}>
-                        <Typography variant="h2" component="h1" gutterBottom>
+                <Box sx={{ width: '100%', height: '300px', overflow: 'hidden', position: 'relative' }}>
+                    <img
+                        src={headingImage}
+                        alt="Sound Voltex Banner"
+                        style={{
+                            width: '100%',
+                            height: '100%',
+                            objectFit: 'cover',
+                            objectPosition: 'center'
+                        }}
+                    />
+                    <Box sx={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        width: '100%',
+                        height: '100%',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        backgroundColor: 'rgba(0, 0, 0, 0.5)'
+                    }}>
+                        <Typography variant="h2" component="h1" gutterBottom sx={{ color: 'white', textShadow: '2px 2px 4px rgba(0,0,0,0.5)' }}>
                             GraceRasis
                         </Typography>
-                        <Typography variant="h5" component="h2" gutterBottom color="textSecondary">
+                        <Typography variant="h5" component="h2" gutterBottom sx={{ color: 'white', textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>
                             Your Ultimate Sound Voltex Information Hub
                         </Typography>
+                    </Box>
+                </Box>
+
+                <Container maxWidth="lg" sx={{ mt: 4, mb: 4, flexGrow: 1 }}>
+                    <Box sx={{ mb: 6, textAlign: 'center' }}>
                         <Typography variant="body1" paragraph sx={{ maxWidth: '800px', margin: '0 auto' }}>
                             GraceRasis is a comprehensive tool designed for Sound Voltex enthusiasts.
                             Our platform offers detailed track and chart information, VOLFORCE calculations,
@@ -55,23 +98,20 @@ export default function HomePage() {
 
                     <Grid container spacing={3}>
                         <Grid item xs={12} sm={6} md={3}>
-                            <StatCard icon={MusicNote} title="Track Searcher"/>
+                            <StatCard icon={MusicNote} title="Track Searcher" value="Explore" />
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
-                            <StatCard icon={BarChart} title="Chart Searcher"/>
+                            <StatCard icon={BarChart} title="Chart Searcher" value="Analyze" />
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
-                            <StatCard icon={FlashOn} title="VOLFORCE Calculator" />
+                            <StatCard icon={FlashOn} title="VOLFORCE Calculator" value="Calculate" />
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
-                            <StatCard icon={Album} title="Radar Values"/>
+                            <StatCard icon={Album} title="Radar Values" value="Visualize" />
                         </Grid>
 
                         <Grid item xs={12} md={6}>
-                            <Paper elevation={3} sx={{ p: 2, height: '100%' }}>
-                                <Typography variant="h6" component="h2" gutterBottom>
-                                    Latest Updates
-                                </Typography>
+                            <InfoCard title="Latest Updates">
                                 <List>
                                     <ListItem>
                                         <ListItemText primary="Added new songs from EXCEED GEAR update" />
@@ -86,14 +126,11 @@ export default function HomePage() {
                                         <ListItemText primary="Added detailed information for HEAVENLY charts" />
                                     </ListItem>
                                 </List>
-                            </Paper>
+                            </InfoCard>
                         </Grid>
 
                         <Grid item xs={12} md={6}>
-                            <Paper elevation={3} sx={{ p: 2, height: '100%' }}>
-                                <Typography variant="h6" component="h2" gutterBottom>
-                                    Quick Tips
-                                </Typography>
+                            <InfoCard title="Quick Tips">
                                 <List>
                                     <ListItem>
                                         <ListItemText primary="Use the search bar to quickly find songs or artists" />
@@ -108,7 +145,7 @@ export default function HomePage() {
                                         <ListItemText primary="Filter charts by difficulty level or chart type" />
                                     </ListItem>
                                 </List>
-                            </Paper>
+                            </InfoCard>
                         </Grid>
                     </Grid>
                 </Container>
