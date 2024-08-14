@@ -12,7 +12,12 @@ public class Chart {
     private int musicId; // Reference to the Music document
     private String difficulty; // "novice", "advanced", "exhaust", "infinite", or "maximum"
 
+    private String jacketLink;
+
     private int level;
+
+    private String title;
+    private String artist;
     private String illustratedBy;
     private String effectedBy;
     private int price;
@@ -27,6 +32,30 @@ public class Chart {
     private int radarTricky;
     private int radarHandTrip;
     private int radarOneHand;
+
+    public String getArtist() {
+        return artist;
+    }
+
+    public void setArtist(String artist) {
+        this.artist = artist;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getJacketLink() {
+        return jacketLink;
+    }
+
+    public void setJacketLink(String jacketLink) {
+        this.jacketLink = jacketLink;
+    }
 
     public String getId() {
         return id;

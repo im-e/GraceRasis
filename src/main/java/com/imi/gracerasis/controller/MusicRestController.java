@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+
 @RestController
 public class MusicRestController {
 
@@ -45,5 +46,22 @@ public class MusicRestController {
 
         return musicRepository.findByArtistContainingIgnoreCase(artist);
     }
+
+    @GetMapping("/music/level/{level}")
+    public List<Music> getMusicFromLevel(@PathVariable int level) {
+        return musicRepository.findByNoviceLevelOrAdvancedLevelOrExhaustLevelOrFinalLevel(level, level, level, level);
+    }
+
+    @GetMapping("/music/all")
+    public List<Music> getAllMusic() {
+        return musicRepository.findAll();
+    }
+
+    @GetMapping("/music/{id}")
+    public Music getMusicById(@PathVariable int id) {
+        return musicRepository.getMusicById(id);
+    }
+
+
 
 }

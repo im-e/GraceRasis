@@ -1,24 +1,14 @@
 import React from 'react';
+import { Box, Typography } from '@mui/material';
 
 function Footer() {
     return (
-        <footer style={styles.footer}>
-            <p>&copy; 2024 Your Company Name. All rights reserved.</p>
-        </footer>
+        <Box component="footer" sx={{ bgcolor: 'background.paper', py: 6 }}>
+            <Typography variant="body2" color="text.secondary" align="center">
+                © {new Date().getFullYear()} My Website. All rights reserved.
+            </Typography>
+        </Box>
     );
 }
-
-const styles = {
-    footer: {
-        position: 'fixed',
-        left: 0,
-        bottom: 0,
-        width: '100%',
-        backgroundColor: '#333',
-        color: 'white',
-        textAlign: 'center',
-        padding: '1rem',
-    }
-};
 
 export default Footer;
