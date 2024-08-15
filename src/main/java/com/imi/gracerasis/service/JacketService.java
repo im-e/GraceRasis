@@ -13,11 +13,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class ChartJacketService {
+public class JacketService {
 
     private final Path gameDataPath;
 
-    public ChartJacketService(@Value("${game.data.path}") String gameDataPath) {
+    public JacketService(@Value("${game.data.path}") String gameDataPath) {
         this.gameDataPath = Paths.get(gameDataPath);
     }
 

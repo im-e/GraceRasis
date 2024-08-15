@@ -16,9 +16,9 @@ import java.util.List;
 import java.util.logging.Logger;
 
 @Service
-public class GoogleCloudStorageService {
+public class GoogleCloudService {
 
-    private final Logger logger = Logger.getLogger(GoogleCloudStorageService.class.getName());
+    private final Logger logger = Logger.getLogger(GoogleCloudService.class.getName());
 
     @Autowired
     private Storage storage;

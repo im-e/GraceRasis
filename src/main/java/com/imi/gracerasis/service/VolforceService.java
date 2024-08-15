@@ -24,8 +24,11 @@ public class VolforceService {
     }
 
     public double calculateVolforce(int level, int score, String clearMedal) {
-        double normalizedScore = (double) score / 1_000_000;
-        double gradeBonus = calculateGradeBonus(score);
+        int playerScore = score;
+        if (score <= 1000) playerScore = score * 10000;
+
+        double normalizedScore = (double) playerScore / 1000000000;
+        double gradeBonus = calculateGradeBonus(playerScore);
         double clearMedalBonus = CLEAR_MEDAL_BONUS.getOrDefault(clearMedal.toUpperCase(), 1.00);
 
         double volforce = ((level * 2) * normalizedScore * gradeBonus * clearMedalBonus);
