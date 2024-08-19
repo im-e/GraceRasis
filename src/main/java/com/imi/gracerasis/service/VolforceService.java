@@ -29,18 +29,23 @@ public class VolforceService {
 
         double normalizedScore = (double) playerScore / 1000000000;
         double gradeBonus = calculateGradeBonus(playerScore);
-        double clearMedalBonus = CLEAR_MEDAL_BONUS.getOrDefault(clearMedal.toUpperCase(), 1.00);
+        double clearMedalBonus = 0;
+        if(playerScore == 10000000) {
+            clearMedalBonus = 1.10;
+        }
+        else {
+            clearMedalBonus = CLEAR_MEDAL_BONUS.getOrDefault(clearMedal.toUpperCase(), 1.00);
+        }
 
         double volforce = ((level * 2) * normalizedScore * gradeBonus * clearMedalBonus);
         return Math.floor(volforce * 1000) / 1000; // Truncate to 3 decimal places
     }
 
     private double calculateGradeBonus(int score) {
-        int normalizedScore = score / 1000; // Convert to thousands
-        if (normalizedScore >= 990) return GRADE_BONUS.get("S");
-        if (normalizedScore >= 980) return GRADE_BONUS.get("AAA+");
-        if (normalizedScore >= 970) return GRADE_BONUS.get("AAA");
-        if (normalizedScore >= 950) return GRADE_BONUS.get("AA+");
+        if (score >= 9900000) return GRADE_BONUS.get("S");
+        if (score >= 9800000) return GRADE_BONUS.get("AAA+");
+        if (score >= 9700000) return GRADE_BONUS.get("AAA");
+        if (score >= 9500000) return GRADE_BONUS.get("AA+");
         return 1.00; // Default grade bonus
     }
 }
