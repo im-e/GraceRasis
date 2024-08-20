@@ -11,6 +11,7 @@ function Header() {
                 </Button>
                 <Button color="inherit" component={RouterLink} to="/music">Music</Button>
                 <Button color="inherit" component={RouterLink} to="/charts">Charts</Button>
+                <Button color="inherit" component={RouterLink} to="/volforce">Volforce</Button>
             </Toolbar>
         </AppBar>
     );

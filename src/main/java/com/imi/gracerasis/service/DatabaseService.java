@@ -16,34 +16,33 @@ import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.util.List;
-import java.util.Objects;
 
 @Service
-public class DatabaseManagementService {
+public class DatabaseService {
 
-    private static final Logger logger = LoggerFactory.getLogger(DatabaseManagementService.class);
+    private static final Logger logger = LoggerFactory.getLogger(DatabaseService.class);
 
-    private final ChartJacketService chartJacketService;
+    private final JacketService jacketService;
     private final ObjectMappingService objectMappingService;
     private final MusicRepository musicRepository;
     private final ChartRepository chartRepository;
-    private final GoogleCloudStorageService googleCloudStorageService;
+    private final GoogleCloudService googleCloudService;
 
     @Value("${game.data.path}")
     private String gameDataPath;
 
 
     @Autowired
-    public DatabaseManagementService(ChartJacketService chartJacketService,
-                                     ObjectMappingService objectMappingService,
-                                     MusicRepository musicRepository,
-                                     ChartRepository chartRepository, GoogleCloudStorageService googleCloudStorageService)
+    public DatabaseService(JacketService jacketService,
+                           ObjectMappingService objectMappingService,
+                           MusicRepository musicRepository,
+                           ChartRepository chartRepository, GoogleCloudService googleCloudService)
     {
-        this.chartJacketService = chartJacketService;
+        this.jacketService = jacketService;
         this.objectMappingService = objectMappingService;
         this.musicRepository = musicRepository;
         this.chartRepository = chartRepository;
-        this.googleCloudStorageService = googleCloudStorageService;
+        this.googleCloudService = googleCloudService;
     }
 
 
@@ -103,9 +102,9 @@ public class DatabaseManagementService {
                 }
 
                 //get the jacket filepaths for current song
-                List<String> jacketFilepaths = chartJacketService.getJacketFilepaths(musicXml);
+                List<String> jacketFilepaths = jacketService.getJacketFilepaths(musicXml);
                 //upload and return the uploaded links for the images
-                List<String> jacketURLs = googleCloudStorageService.uploadJackets(jacketFilepaths);
+                List<String> jacketURLs = googleCloudService.uploadJackets(jacketFilepaths);
 
                 // Assign jackets based on the number of available jackets
                 switch (jacketURLs.size()) {
