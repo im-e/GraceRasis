@@ -219,7 +219,7 @@ const VolforceTablePage = () => {
                         <TableHead>
                             <TableRow>
                                 <TableCell>Rank</TableCell>
-                                <TableCell>Minimum Volforce</TableCell>
+                                <TableCell>Top 50 Minimum Volforce</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
