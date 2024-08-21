@@ -9,6 +9,7 @@ import HomePage from './pages/HomePage';
 import MusicPage from './pages/MusicPage';
 import MusicDetailPage from './pages/MusicDetailPage';
 import ChartListPage from './pages/ChartListPage';
+import VolforceTablePage from "./pages/VolforceTablePage";
 
 
 
@@ -21,11 +22,12 @@ function App() {
                     <Header />
                     <Box component="main" sx={{ flexGrow: 1, py: 3 }}>
                         <Routes>
-                            <Route path="/" element={<HomePage />} />
-                            <Route path="/music" element={<MusicPage />} />
-                            <Route path="/music/:id" element={<MusicDetailPage />} />
-                            <Route path="/charts" element={<ChartListPage />} />
-                            <Route path="/charts/:difficulty" element={<ChartListPage />} />
+                            <Route path="/" element={<HomePage/>} />
+                            <Route path="/music" element={<MusicPage/>} />
+                            <Route path="/music/:id" element={<MusicDetailPage/>} />
+                            <Route path="/charts" element={<ChartListPage/>} />
+                            <Route path="/charts/:difficulty" element={<ChartListPage/>} />
+                            <Route path="/volforce" element={<VolforceTablePage/>} />
                         </Routes>
                     </Box>
                     <Footer />
